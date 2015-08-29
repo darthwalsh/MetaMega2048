@@ -46,8 +46,14 @@ window.onload = function() {
       case 40:
         game.down();
         break;
-     }
-     
+    }
+    
+    if (game.gameOver()) {
+      alert("loser");
+    } else {
+      game.addElem();
+    }
+    
     render();
 
   };

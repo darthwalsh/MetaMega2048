@@ -54,20 +54,25 @@ Game.prototype = {
   },
 
   addElem: function() {
-    var count = 0;
+    if (this.gameOver()) {
+      console.error("Oops!");
+    }
+    
     var x, y;
     
     do {
-      if(count++ == 16) {
-        alert("loser");
-        return;
-      }
       x = Math.floor(Math.random() * 4);
       y = Math.floor(Math.random() * 4);
     } while (this.grid[x][y]);
     
     var chance = Math.random();
     this.grid[x][y] = chance < 0.8 ? 2 : 4;
+  },
+  
+  gameOver: function() {
+    return this.grid.every(function (arr) {
+      return arr.every(function (x) { return x; });
+    });
   }
 };
 
