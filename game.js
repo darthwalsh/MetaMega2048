@@ -44,15 +44,18 @@ Game.prototype = {
       if (!f) continue;
       
       var t = arr[to];
-      if (t == 0 || t == f) {
+      if (t == 0) {
         arr[to] += f;
-        this.modified = true;
+      } else if (t == f) {
+        arr[to] += f;
+        ++to;
       } else {
         ++to;
         if (from == to) continue;
         arr[to] = f;
-        this.modified = true;
       }
+      
+      this.modified = true;
       
       arr[from] = 0;
     }

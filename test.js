@@ -37,6 +37,9 @@ QUnit.test( "game.shift", function( assert ) {
 
   shiftsTo([2,4,2,2], [2,4,4,0], true);
   shiftsTo([2,4,8,2], [2,4,8,2]);
+  
+  shiftsTo([2,2,4,4], [4,8,0,0], true);
+  shiftsTo([2,2,2,2], [4,4,0,0], true);
 });
 
 function makeGame(s) {
