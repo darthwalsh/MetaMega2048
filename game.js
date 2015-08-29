@@ -11,6 +11,7 @@ var Game = function() {
 
 Game.prototype = {
   left: function() { 
+    this.modified = false;
     for (var y = 0; y < 4; ++y) {
       var temp = this.grid.map(function(a) { return a[y]});
       this.shift(temp);
@@ -23,9 +24,11 @@ Game.prototype = {
     this.grid.reverse();
   },
   up: function() {
+    this.modified = false;
     this.grid.map(function(a) { this.shift(a); }, this);
   },
   down: function() {
+    this.modified = false;
     this.grid.map(function(a) { 
       a.reverse();
       this.shift(a);
@@ -35,7 +38,7 @@ Game.prototype = {
    
   shift: function(arr) {
     for (var from = 0, to = 0; from < 4; ++from) {
-      if (from == to)  continue;
+      if (from == to) continue;
       
       var f = arr[from];
       if (!f) continue;
@@ -43,10 +46,12 @@ Game.prototype = {
       var t = arr[to];
       if (t == 0 || t == f) {
         arr[to] += f;
+        this.modified = true;
       } else {
         ++to;
-        if (from == to)  continue;
+        if (from == to) continue;
         arr[to] = f;
+        this.modified = true;
       }
       
       arr[from] = 0;
@@ -70,9 +75,21 @@ Game.prototype = {
   },
   
   gameOver: function() {
-    return this.grid.every(function (arr) {
-      return arr.every(function (x) { return x; });
-    });
+    var orig = JSON.stringify(this.grid);
+    
+    var m = false;
+    this.left();
+    m = m || this.modified;
+    this.right();
+    m = m || this.modified;
+    this.up();
+    m = m || this.modified;
+    this.down();
+    m = m || this.modified;
+    
+    this.grid = JSON.parse(orig);
+    
+    return !m;
   }
 };
 

@@ -46,12 +46,15 @@ window.onload = function() {
       case 40:
         game.down();
         break;
+      default:
+        return;
     }
     
-    if (game.gameOver()) {
-      alert("loser");
-    } else {
+    if (game.modified) {
       game.addElem();
+    } else if (game.gameOver()) {
+      alert("loser");
+      document.onkeydown = null;
     }
     
     render();
