@@ -1,59 +1,5 @@
 "use strict";
 
-function $(id) { return document.getElementById(id); }
-function create(el) { return document.createElement(el); }
-
-window.onload = function() {
-  var table = $("grid");
-
-  var grid = [[],[],[],[]];
-  
-  for(var y = 0; y < 4; ++y) {
-    var tr = create("tr");
-    
-    for(var x = 0; x < 4; ++x) {
-      var cell = create("td");
-  
-      tr.appendChild(cell);
-      grid[x][y]=cell;
-    }
-    
-    table.appendChild(tr);
-  }
-  
-  var game = new Game();
-  
-  var render = function() {
-    for(var x = 0; x < 4; ++x)
-      for(var y = 0; y < 4; ++y)
-        grid[x][y].innerText = game.grid[x][y] || " ";
-  };
-
-  game.addElem();
-  render();
-  
-  document.onkeydown = function(e) {
-    switch(e.keyCode) {
-      case 37:
-        game.left();
-        break;
-      case 38:
-        game.up();
-        break;
-      case 39:
-        game.right();
-        break;
-      case 40:
-        game.down();
-        break;
-     }
-     
-    render();
-
-  };
-};
-
-
 var Game = function() {
   this.grid = [
     [0,0,0,0],
@@ -65,24 +11,29 @@ var Game = function() {
 
 Game.prototype = {
   left: function() { 
-    this.addElem();
+    for (var y = 0; y < 4; ++y) {
+      var temp = this.grid.map(function(a) { return a[y]});
+      this.shift(temp);
+      temp.map(function(x, i) { this.grid[i][y] = x; }, this);
+    }
   },
   right: function() {
-    for (var y = 0; y < 4; ++y) {
-
-      
-    }
-    
-    this.addElem();
+    this.grid.reverse();
+    this.left();
+    this.grid.reverse();
   },
   up: function() {
-    this.addElem();
+    this.grid.map(function(a) { this.shift(a); }, this);
   },
   down: function() {
-    this.addElem();
+    this.grid.map(function(a) { 
+      a.reverse();
+      this.shift(a);
+      a.reverse();
+    }, this);
   },
    
-  slide: function(arr) {
+  shift: function(arr) {
     for (var from = 0, to = 0; from < 4; ++from) {
       if (from == to)  continue;
       
@@ -94,8 +45,11 @@ Game.prototype = {
         arr[to] += f;
       } else {
         ++to;
+        if (from == to)  continue;
         arr[to] = f;
       }
+      
+      arr[from] = 0;
     }
   },
 
