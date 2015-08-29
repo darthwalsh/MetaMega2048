@@ -1,0 +1,6 @@
+table, th, td {
+   border: 1px solid black;
+   table-layout: fixed;
+   width:20px;
+   height:20px;
+}
