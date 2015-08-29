@@ -62,10 +62,6 @@ Game.prototype = {
   },
 
   addElem: function() {
-    if (this.gameOver()) {
-      console.error("Oops!");
-    }
-    
     var x, y;
     
     do {
@@ -77,7 +73,7 @@ Game.prototype = {
     this.grid[x][y] = chance < 0.8 ? 2 : 4;
   },
   
-  gameOver: function() {
+  lose: function() {
     var orig = JSON.stringify(this.grid);
     
     var m = false;
@@ -93,6 +89,12 @@ Game.prototype = {
     this.grid = JSON.parse(orig);
     
     return !m;
+  },
+  
+  win: function() {
+    return this.grid.some(function (arr) {
+      return arr.indexOf(2048) != -1;
+    })
   }
 };
 

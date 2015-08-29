@@ -126,43 +126,39 @@ QUnit.test( "game.dirs", function( assert ) {
   );
 });
 
-QUnit.test( "game.gameover", function( assert ) {
-  var dir = function(from, to, f) {
-    assert.equal(from.length, 16, f + " from.length");
-    assert.equal(to.length, 16, f + " from.length");
-    
-    var game = makeGame(from);
-      
-    var expected = [[],[],[],[]];
-    for(var i = 0; i < 16; ++i)
-      expected[i%4][Math.floor(i/4)] = +to[i];
-    
-    game[f]();
-    
-    assert.deepEqual(game.grid, expected, f);
-  };
-  
+QUnit.test( "game.lose", function( assert ) {  
   assert.notOk(makeGame("\
 0000\
 0000\
 0020\
-0000").gameOver(), "simple game");
+0000").lose(), "simple game");
 
     assert.notOk(makeGame("\
 2424\
 4242\
 2428\
-4244").gameOver(), "can move right");
+4244").lose(), "can move right");
 
     assert.notOk(makeGame("\
 2424\
 4242\
 2424\
-4284").gameOver(), "can make down");
+4284").lose(), "can make down");
 
     assert.ok(makeGame("\
 2424\
 4242\
 2424\
-4242").gameOver(), "can't move'");
+4242").lose(), "can't move'");
 });
+
+QUnit.test( "game.win", function( assert ) {
+  var game = new Game();
+  
+  assert.notOk(game.win(), "new game");
+  
+  game.grid[0][2] = 2048;
+  
+  assert.ok(game.win(), "2048");
+});
+

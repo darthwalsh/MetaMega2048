@@ -52,12 +52,18 @@ window.onload = function() {
     
     if (game.modified) {
       game.addElem();
-    } else if (game.gameOver()) {
-      alert("loser");
+
+      render();
+    }
+
+    if (game.win()) {
+      alert("Winner!");
+      document.onkeydown = null;
+    } else if (game.lose()) {
+      alert("loser...");
       document.onkeydown = null;
     }
     
-    render();
 
   };
 };
