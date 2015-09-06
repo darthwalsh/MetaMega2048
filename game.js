@@ -13,7 +13,7 @@ Game.prototype = {
   left: function() { 
     this.modified = false;
     for (var y = 0; y < 4; ++y) {
-      var temp = this.grid.map(function(a) { return a[y]});
+      var temp = this.grid.map(function(a) { return a[y]; });
       this.shift(temp);
       temp.map(function(x, i) { this.grid[i][y] = x; }, this);
     }
@@ -44,7 +44,7 @@ Game.prototype = {
       if (!f) continue;
       
       var t = arr[to];
-      if (t == 0) {
+      if (t === 0) {
         arr[to] += f;
       } else if (t == f) {
         arr[to] += f;
@@ -93,8 +93,8 @@ Game.prototype = {
   
   win: function() {
     return this.grid.some(function (arr) {
-      return arr.indexOf(2048) != -1;
-    })
+      return arr.indexOf(2048) !== -1;
+    });
   }
 };
 
