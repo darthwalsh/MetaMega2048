@@ -30,8 +30,18 @@ function getColor(n) {
   if (n == 0)
     return "white";
 
-  var l = 15 - (Math.log2(n) % 10);
-  return HSVtoRGB(l/20, 0.5, 0.5);
+  var h = (Math.log2(n) % 12) / 12;
+  return HSVtoRGB(h, 0.5, 0.7);
+}
+
+function getSize(n) {
+  switch (n.toString().length) {
+    case 1: return "22px";
+    case 2: return "20px";
+    case 3: return "17px";
+    case 4: return "13px";
+    default: return "11px";
+  }
 }
   
 window.onload = function() {
@@ -60,10 +70,30 @@ window.onload = function() {
         var n = game.grid[x][y];
         grid[x][y].innerText = n || " ";
         grid[x][y].style.backgroundColor = getColor(n);
+        grid[x][y].style.fontSize = getSize(n);
       }
   };
 
-  game.addElem();
+  if (true) {
+    game.addElem();
+  } else {   // Debug appearence
+    game.grid[0][0] = 0;
+    game.grid[1][0] = 2;
+    game.grid[2][0] = 4;
+    game.grid[3][0] = 8;
+    game.grid[0][1] = 128;
+    game.grid[1][1] = 64;
+    game.grid[2][1] = 32;
+    game.grid[3][1] = 16;
+    game.grid[0][2] = 256;
+    game.grid[1][2] = 512;
+    game.grid[2][2] = 1024;
+    game.grid[3][2] = 2048;
+    game.grid[0][3] = 2048 * 16;
+    game.grid[1][3] = 2048 * 8;
+    game.grid[2][3] = 2048 * 4;
+    game.grid[3][3] = 2048 * 2;
+  }
   render();
   
   document.onkeydown = function(e) {
