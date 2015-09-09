@@ -162,3 +162,45 @@ QUnit.test( "game.win", function( assert ) {
   assert.ok(game.win(), "2048");
 });
 
+
+QUnit.test( "game.score", function( assert ) {
+var after = function(g, f, expectedScore) {
+    assert.equal(g.length, 16, f + " g.length");
+    
+    var game = makeGame(g);
+    
+    game[f]();
+    
+    assert.equal(game.score, expectedScore, f);
+  };
+  
+  after("\
+0000\
+0000\
+0020\
+0000","left", 0);
+  
+  after("\
+0020\
+0000\
+0428\
+0000","left", 0);
+  
+  after("\
+0000\
+0000\
+0220\
+0000","left", 4);
+  
+  after("\
+0000\
+0000\
+2244\
+0000","left", 12);
+  
+  after("\
+2000\
+0200\
+4000\
+0000","left", 0);
+});

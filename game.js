@@ -7,6 +7,7 @@ var Game = function() {
     [0,0,0,0],
     [0,0,0,0]
   ];
+  this.score = 0;
 };
 
 Game.prototype = {
@@ -38,20 +39,21 @@ Game.prototype = {
    
   shift: function(arr) {
     for (var from = 0, to = 0; from < 4; ++from) {
-      if (from == to) continue;
+      if (from === to) continue;
       
       var f = arr[from];
       if (!f) continue;
       
       var t = arr[to];
       if (t === 0) {
+        arr[to] = f;
+      } else if (t === f) {
         arr[to] += f;
-      } else if (t == f) {
-        arr[to] += f;
+        this.score += arr[to];
         ++to;
       } else {
         ++to;
-        if (from == to) continue;
+        if (from === to) continue;
         arr[to] = f;
       }
       
@@ -75,6 +77,7 @@ Game.prototype = {
   
   lose: function() {
     var orig = JSON.stringify(this.grid);
+    var score = this.score;
     
     var m = false;
     this.left();
@@ -87,6 +90,7 @@ Game.prototype = {
     m = m || this.modified;
     
     this.grid = JSON.parse(orig);
+    this.score = score;
     
     return !m;
   },
@@ -97,7 +101,3 @@ Game.prototype = {
     });
   }
 };
-
-
-
-

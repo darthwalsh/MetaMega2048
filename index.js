@@ -64,6 +64,8 @@ window.onload = function() {
   
   var game = new Game();
   
+  var score = $("score");
+  
   var render = function() {
     for(var x = 0; x < 4; ++x)
       for(var y = 0; y < 4; ++y) {
@@ -72,6 +74,8 @@ window.onload = function() {
         grid[x][y].style.backgroundColor = getColor(n);
         grid[x][y].style.fontSize = getSize(n);
       }
+      
+    score.innerText = game.score;
   };
 
   if (true) {
@@ -127,7 +131,5 @@ window.onload = function() {
       alert("loser...");
       document.onkeydown = null;
     }
-    
-
   };
 };
